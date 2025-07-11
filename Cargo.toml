@@ -1,0 +1,9 @@
+[package]
+name = "bitcoin_addr"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bitcoin-address-generator = "0.1.0"
+bip39 = "2.2.0"
+bitcoin = "0.32.6"
