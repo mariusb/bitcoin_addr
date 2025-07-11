@@ -4,7 +4,8 @@ use bitcoin_address_generator::{
     WordCount, 
     derive_bitcoin_address, 
     derive_bitcoin_addresses,
-    calculate_script_hash
+    calculate_script_hash,
+    derive_private_key
 };
 use bitcoin::Network;
 
@@ -33,7 +34,8 @@ fn main() {
     ).unwrap();
     println!("Legacy address: {}", p2pkh_addr.address);
     println!(" -> Legacy Script hash: {}", calculate_script_hash(p2pkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
-    
+    println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/44'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
+
     // Derive a Nested SegWit (P2SH-WPKH) address
     let p2sh_wpkh_addr = derive_bitcoin_address(
         &mnemonic,
@@ -43,6 +45,7 @@ fn main() {
     ).unwrap();
     println!("Nested SegWit address: {}", p2sh_wpkh_addr.address);
     println!(" -> Nested SegWit Script hash: {}", calculate_script_hash(p2sh_wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/49'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
     
     // Derive a Native SegWit (P2WPKH) address
     let p2wpkh_addr = derive_bitcoin_address(
@@ -53,6 +56,7 @@ fn main() {
     ).unwrap();
     println!("Native SegWit address: {}", p2wpkh_addr.address);
     println!(" -> Native SegWit Script hash: {}", calculate_script_hash(p2wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/84'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
 
     // Derive a Taproot (P2TR) address
     let p2tr_addr = derive_bitcoin_address(
@@ -63,8 +67,9 @@ fn main() {
     ).unwrap();
     println!("Taproot address: {}", p2tr_addr.address);
     println!(" -> Taproot Script hash: {}", calculate_script_hash(p2tr_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/86'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
 
-    // Derive a testnet address
+    /*  Derive a testnet address
     let testnet_addr = derive_bitcoin_address(
         &mnemonic,
         Some("m/84'/1'/0'/0/0"),
@@ -73,8 +78,9 @@ fn main() {
     ).unwrap();
     println!("Testnet address: {}", testnet_addr.address);
     println!(" -> Testnet Script hash: {}", calculate_script_hash(testnet_addr.address.as_str(),Some(Network::Testnet)).unwrap());
+    */
 
-
+    /* Some more examples of address derivation:
     // Derive 5 consecutive receiving addresses (m/86'/0'/0'/0/0 through m/86'/0'/0'/0/4) - Taproot addresses
     let receive_addresses = derive_bitcoin_addresses(
         &mnemonic,
@@ -122,5 +128,5 @@ fn main() {
     println!("\nCustom range addresses:");
     for addr in custom_range.addresses.iter() {
         println!("{} (path: {})", addr.address, addr.path);
-    }
+    } */
 }
