@@ -74,7 +74,7 @@ fn main() {
     println!("Testnet address: {}", testnet_addr.address);
     println!(" -> Testnet Script hash: {}", calculate_script_hash(testnet_addr.address.as_str(),Some(Network::Testnet)).unwrap());
 
-    /*
+
     // Derive 5 consecutive receiving addresses (m/84'/0'/0'/0/0 through m/84'/0'/0'/0/4)
     let receive_addresses = derive_bitcoin_addresses(
         &mnemonic,
@@ -122,5 +122,4 @@ fn main() {
     for addr in custom_range.addresses.iter() {
         println!("{} (path: {})", addr.address, addr.path);
     }
-    */
 }
