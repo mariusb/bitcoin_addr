@@ -7,3 +7,6 @@ edition = "2024"
 bitcoin-address-generator = "0.1.0"
 bip39 = "2.2.0"
 bitcoin = "0.32.6"
+reqwest = { version = "0.12.22", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"] }
