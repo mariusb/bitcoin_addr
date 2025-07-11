@@ -11,6 +11,7 @@ use bitcoin::Network;
 use reqwest::Error;
 use serde::Deserialize;
 use std::env;
+use chrono::Local;
 
 #[derive(Deserialize)]
 struct AddressInfo {
@@ -43,6 +44,9 @@ async fn btcbalance_from_mempool_space(address: &str) -> Result<f64, Error> {
 
 #[tokio::main]
 async fn main() {
+    // Print date and time stamp
+    println!("Start time: {}", Local::now().format("%Y-%m-%d %H:%M:%S"));
+
     // Read the first argument as the number of iterations
     let args: Vec<String> = std::env::args().collect();
     let count: usize = if args.len() > 1 {
