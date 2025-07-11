@@ -65,10 +65,14 @@ async fn main() {
         None
     ).unwrap();
     println!("Legacy address (P2PKH): {}", p2pkh_addr.address);
-    println!(" -> Legacy Script hash: {}", calculate_script_hash(p2pkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    // println!(" -> Legacy Script hash: {}", calculate_script_hash(p2pkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
     println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/44'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
     match btcbalance_from_mempool_space(p2pkh_addr.address.as_str()).await {
-        Ok(balance) => println!("Balance: {} BTC", balance),
+        Ok(balance) => if balance > 0.0 { 
+            println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+        } else { 
+            println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+        },
         Err(e) => eprintln!("Error fetching balance: {}", e),
     }
 
@@ -80,10 +84,14 @@ async fn main() {
         None
     ).unwrap();
     println!("Nested SegWit address (P2SH-WPKH): {}", p2sh_wpkh_addr.address);
-    println!(" -> Nested SegWit Script hash: {}", calculate_script_hash(p2sh_wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    // println!(" -> Nested SegWit Script hash: {}", calculate_script_hash(p2sh_wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
     println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/49'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
     match btcbalance_from_mempool_space(p2sh_wpkh_addr.address.as_str()).await {
-        Ok(balance) => println!("Balance: {} BTC", balance),
+        Ok(balance) => if balance > 0.0 { 
+            println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+        } else { 
+            println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+        },
         Err(e) => eprintln!("Error fetching balance: {}", e),
     }
 
@@ -95,10 +103,14 @@ async fn main() {
         None
     ).unwrap();
     println!("Native SegWit address (P2WPKH): {}", p2wpkh_addr.address);
-    println!(" -> Native SegWit Script hash: {}", calculate_script_hash(p2wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    // println!(" -> Native SegWit Script hash: {}", calculate_script_hash(p2wpkh_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
     println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/84'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
     match btcbalance_from_mempool_space(p2wpkh_addr.address.as_str()).await {
-        Ok(balance) => println!("Balance: {} BTC", balance),
+        Ok(balance) => if balance > 0.0 { 
+            println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+        } else { 
+            println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+        },
         Err(e) => eprintln!("Error fetching balance: {}", e),
     }
 
@@ -110,10 +122,14 @@ async fn main() {
         None
     ).unwrap();
     println!("Taproot address (P2TR): {}", p2tr_addr.address);
-    println!(" -> Taproot Script hash: {}", calculate_script_hash(p2tr_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
+    // println!(" -> Taproot Script hash: {}", calculate_script_hash(p2tr_addr.address.as_str(),Some(Network::Bitcoin)).unwrap());
     println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/86'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
     match btcbalance_from_mempool_space(p2tr_addr.address.as_str()).await {
-        Ok(balance) => println!("Balance: {} BTC", balance),
+        Ok(balance) => if balance > 0.0 { 
+            println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+        } else { 
+            println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+        },
         Err(e) => eprintln!("Error fetching balance: {}", e),
     }
 
