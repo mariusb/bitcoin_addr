@@ -75,10 +75,10 @@ fn main() {
     println!(" -> Testnet Script hash: {}", calculate_script_hash(testnet_addr.address.as_str(),Some(Network::Testnet)).unwrap());
 
 
-    // Derive 5 consecutive receiving addresses (m/84'/0'/0'/0/0 through m/84'/0'/0'/0/4)
+    // Derive 5 consecutive receiving addresses (m/86'/0'/0'/0/0 through m/86'/0'/0'/0/4) - Taproot addresses
     let receive_addresses = derive_bitcoin_addresses(
         &mnemonic,
-        Some("m/84'/0'/0'"),  // Base path up to account level
+        Some("m/86'/0'/0'"),  // Base path up to account level
         Some(Network::Bitcoin),
         None,                  // No BIP39 passphrase
         Some(false),           // Receiving addresses (false = receiving, true = change)
@@ -90,11 +90,11 @@ fn main() {
     for (i, addr) in receive_addresses.addresses.iter().enumerate() {
         println!("Address {}: {} (path: {})", i, addr.address, addr.path);
     }
-    
-    // Derive 3 change addresses (m/84'/0'/0'/1/0 through m/84'/0'/0'/1/2)
+
+    // Derive 3 change addresses (m/86'/0'/0'/1/0 through m/86'/0'/0'/1/2) - Taproot addresses
     let change_addresses = derive_bitcoin_addresses(
         &mnemonic,
-        Some("m/84'/0'/0'"),  // Base path up to account level
+        Some("m/86'/0'/0'"),  // Base path up to account level
         Some(Network::Bitcoin),
         None,                  // No BIP39 passphrase
         Some(true),            // Change addresses (false = receiving, true = change)
@@ -107,10 +107,11 @@ fn main() {
         println!("Change Address {}: {} (path: {})", i, addr.address, addr.path);
     }
     
-    // You can also start from a specific index
+    // You can also start from a specific index - Taproot addresses
+    // For example, to generate addresses starting from index 10:
     let custom_range = derive_bitcoin_addresses(
         &mnemonic,
-        Some("m/84'/0'/0'"),
+        Some("m/86'/0'/0'"),
         Some(Network::Bitcoin),
         None,
         Some(false),
