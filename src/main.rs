@@ -47,13 +47,27 @@ async fn main() {
     // Print date and time stamp
     println!("Start time: {}", Local::now().format("%Y-%m-%d %H:%M:%S"));
 
-    // Read the first argument as the number of iterations
+    // Read arguments: first is number of iterations, second is a bitcoin address
     let args: Vec<String> = std::env::args().collect();
     let count: usize = if args.len() > 1 {
         args[1].parse().unwrap_or(1)
     } else {
         1
     };
+    let test_address = if args.len() > 2 {
+        args[2].as_str()
+    } else {
+        "bc1qq5552m27lql80chjze0d8pty0r4dfezeucymkd"
+    };
+    println!("Test address with a balance: {}", test_address);
+    match btcbalance_from_mempool_space(test_address).await {
+        Ok(balance) => if balance > 0.0 { 
+            println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+        } else { 
+            println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+        },
+        Err(e) => eprintln!("Error fetching balance: {}", e),
+    }
 
     for i in 0..count {
         println!("\n=== Iteration {} ===", i + 1);
