@@ -68,6 +68,8 @@ async fn main() {
         },
         Err(e) => eprintln!("Error fetching balance: {}", e),
     }
+    let mut count_found = 0;
+    let mut count_not_found = 0;
 
     for i in 0..count {
         println!("\n=== Iteration {} ===", i + 1);
@@ -87,9 +89,11 @@ async fn main() {
         println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/44'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
         match btcbalance_from_mempool_space(p2pkh_addr.address.as_str()).await {
             Ok(balance) => if balance > 0.0 { 
-                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance);
+                count_found += 1; 
             } else { 
-                println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+                println!(" -> Balance: {} BTC <-------------- what a let down", balance);
+                count_not_found += 1;
             },
             Err(e) => eprintln!("Error fetching balance: {}", e),
         }
@@ -105,9 +109,11 @@ async fn main() {
         println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/49'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
         match btcbalance_from_mempool_space(p2sh_wpkh_addr.address.as_str()).await {
             Ok(balance) => if balance > 0.0 { 
-                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance);
+                count_found += 1;
             } else { 
-                println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+                println!(" -> Balance: {} BTC <-------------- what a let down", balance);
+                count_not_found += 1;
             },
             Err(e) => eprintln!("Error fetching balance: {}", e),
         }
@@ -123,9 +129,11 @@ async fn main() {
         println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/84'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
         match btcbalance_from_mempool_space(p2wpkh_addr.address.as_str()).await {
             Ok(balance) => if balance > 0.0 { 
-                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance);
+                count_found += 1;
             } else { 
-                println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+                println!(" -> Balance: {} BTC <-------------- what a let down", balance);
+                count_not_found += 1;
             },
             Err(e) => eprintln!("Error fetching balance: {}", e),
         }
@@ -141,11 +149,15 @@ async fn main() {
         println!(" -> Private key (WIF): {}", derive_private_key(&mnemonic, Some("m/86'/0'/0'/0/0"), Some(Network::Bitcoin), None).unwrap());
         match btcbalance_from_mempool_space(p2tr_addr.address.as_str()).await {
             Ok(balance) => if balance > 0.0 { 
-                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
+                println!(" -> Balance: {} BTC <-------------- we have a winner!", balance);
+                count_found += 1;
             } else { 
-                println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
+                println!(" -> Balance: {} BTC <-------------- what a let down", balance);
+                count_not_found += 1;
             },
             Err(e) => eprintln!("Error fetching balance: {}", e),
         }
+    println!("Found {} addresses with balance, {} without balance", count_found, count_not_found);
+    println!("End time: {}", Local::now().format("%Y-%m-%d %H:%M:%S"));
     }
 }
