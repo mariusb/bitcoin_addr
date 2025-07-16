@@ -157,7 +157,7 @@ async fn main() {
             },
             Err(e) => eprintln!("Error fetching balance: {}", e),
         }
+    }
     println!("Found {} addresses with balance, {} without balance", count_found, count_not_found);
     println!("End time: {}", Local::now().format("%Y-%m-%d %H:%M:%S"));
-    }
 }
