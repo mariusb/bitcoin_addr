@@ -115,7 +115,7 @@ async fn main() {
     println!("Test address with a balance: {}", test_address);
     match btcbalance_from_mempool_space(test_address.as_str()).await {
         Ok(balance) => if balance > 0.0 { 
-            println!(" -> Balance: {} BTC <-------------- we have a winner! -- Test Address: {}", balance, test_address) 
+            println!(" -> Balance: {} BTC <--------------- Test Address: {}", balance, test_address) 
         } else { 
             println!(" -> Balance: {} BTC <-------------- what a let down", balance) 
         },
