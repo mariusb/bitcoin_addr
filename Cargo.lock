@@ -196,6 +196,7 @@ dependencies = [
  "chrono",
  "reqwest",
  "serde",
+ "serde_json",
  "tokio",
 ]
 

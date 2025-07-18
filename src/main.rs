@@ -9,6 +9,7 @@ use bitcoin_address_generator::{
 };
 use bitcoin::Network;
 use reqwest::Error;
+use reqwest;
 use serde::Deserialize;
 use std::env;
 use chrono::Local;
@@ -22,6 +23,54 @@ struct AddressInfo {
 struct ChainStats {
     funded_txo_sum: u64,
     spent_txo_sum: u64,
+}
+
+#[derive(Debug, Deserialize)]
+struct Tx {
+    vout: Vec<Vout>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Vout {
+    scriptpubkey_address: Option<String>,
+}
+
+async fn get_first_output_address_from_latest_block() -> Result<String, Box<dyn std::error::Error>> {
+    let client = reqwest::Client::new();
+
+    // 1. Get the latest block hash
+    let latest_block_hash: String = client
+        .get("https://mempool.space/api/blocks/tip/hash")
+        .send()
+        .await?
+        .text()
+        .await?;
+
+    // 2. Get the transaction IDs for the latest block
+    let txids_url = format!("https://mempool.space/api/block/{}/txids", latest_block_hash);
+    let txids: Vec<String> = client.get(&txids_url).send().await?.json().await?;
+
+    if txids.is_empty() {
+        return Err("No transactions in the latest block.".into());
+    }
+
+    // 3. Get the first transaction
+    let first_txid = &txids[0];
+
+    // 4. Get the details of the first transaction
+    let tx_url = format!("https://mempool.space/api/tx/{}", first_txid);
+    let tx: Tx = client.get(&tx_url).send().await?.json().await?;
+
+    // 5. Find the first output address
+    if let Some(first_vout) = tx.vout.get(0) {
+        if let Some(address) = &first_vout.scriptpubkey_address {
+            return Ok(address.clone());
+        } else {
+            return Err("First output has no address.".into());
+        }
+    } else {
+        return Err("Transaction has no outputs.".into());
+    }
 }
 
 async fn btcbalance_from_mempool_space(address: &str) -> Result<f64, Error> {
@@ -55,12 +104,16 @@ async fn main() {
         1
     };
     let test_address = if args.len() > 2 {
-        args[2].as_str()
+        args[2].clone()
     } else {
-        "bc1qq5552m27lql80chjze0d8pty0r4dfezeucymkd"
+        get_first_output_address_from_latest_block().await.unwrap_or_else(|_| {
+            eprintln!("Failed to get the first output address from the latest block.");
+            "bc1qq5552m27lql80chjze0d8pty0r4dfezeucymkd".to_string() // Default address if fetching fails
+        })
     };
+    
     println!("Test address with a balance: {}", test_address);
-    match btcbalance_from_mempool_space(test_address).await {
+    match btcbalance_from_mempool_space(test_address.as_str()).await {
         Ok(balance) => if balance > 0.0 { 
             println!(" -> Balance: {} BTC <-------------- we have a winner!", balance) 
         } else { 
