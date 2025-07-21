@@ -7,7 +7,7 @@ BACKUP_FILE="bitcoin_balance.log.$BACKUP_DATE"
 if [ ! -f "$BACKUP_FILE" ]; then
     if [ -f bitcoin_balance.log ]; then
         mv bitcoin_balance.log "$BACKUP_FILE"
-        echo "Backup created: $BACKUP_FILE"
+        echo "Backup created: $BACKUP_FILE" >> bitcoin_balance.log 2>&1
     fi
 fi
 
