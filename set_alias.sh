@@ -4,3 +4,4 @@
 alias ve=./view_error.sh
 alias vb=./view_balance.sh
 alias vf=./view_found.sh
+alias vs=./summary.sh

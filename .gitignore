@@ -2,3 +2,4 @@
 out.log
 bitcoin_balance.*
 *.log
+*.db
