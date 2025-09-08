@@ -72,3 +72,7 @@ This project includes several helper scripts to automate the process of running 
 -   `view_error.sh`: Displays any error messages that have been logged.
 -   `view_found.sh`: Shows a summary of the number of addresses found with a balance.
 -   `test_summary.sh`: A script to manually trigger a summary of the current `bitcoin_balance.log` file without rotating the log. The summary is appended to `summary.log`.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
