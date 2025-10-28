@@ -29,4 +29,4 @@ if [ ! -f "$BACKUP_FILE" ]; then
     fi
 fi
 
-target/release/bitcoin_addr 8 >> bitcoin_balance.log 2>&1
+target/release/bitcoin_addr 10 >> bitcoin_balance.log 2>&1
